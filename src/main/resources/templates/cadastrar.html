@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Cadastrar Novo Usuário</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cadastrar Novo Usuário</h1>
+        <form id="cadastro-form" action="/salvar" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="data-nascimento">Data de Nascimento:</label>
+            <input type="date" id="data-nascimento" name="data-nascimento" required>
+
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro" required>
+            <input type="text" id="numero" name="numero" placeholder="Número" required>
+            <input type="text" id="quadra" name="quadra" placeholder="Quadra">
+            <input type="text" id="lote" name="lote" placeholder="Lote">
+            <input type="text" id="bairro" name="bairro" placeholder="Bairro" required>
+            <input type="text" id="cep" name="cep" placeholder="CEP" required>
+            <input type="text" id="cidade" name="cidade" placeholder="Cidade" required>
+            <input type="text" id="estado" name="estado" placeholder="Estado" required>
+
+            <div class="button-container">
+                <form action="/salvar" method="post">
+                    <button type="submit">Salvar</button>
+                </form>
+                <form action="/login" method="get">
+                    <button type="submit2">Voltar ao Login</button>
+                </form>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
