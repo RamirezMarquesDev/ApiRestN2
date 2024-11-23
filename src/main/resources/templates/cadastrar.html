@@ -18,6 +18,20 @@
             <label for="email">E-mail:</label>
             <input type="email" id="email" name="email" required>
 
+            <label for="password">Password:</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required oninput="checkPasswords()">
+                <span class="toggle-password" onclick="togglePassword('password', this)">👁️</span>
+                <div class="tooltip" id="passwordTooltip">Digite sua senha.</div>
+            </div>
+
+            <label for="passwordConfirmation">Password Confirmation:</label>
+            <div class="password-container">
+                <input type="password" id="passwordConfirmation" name="passwordConfirmation" required oninput="checkPasswords()">
+                <span class="toggle-password" onclick="togglePassword('passwordConfirmation', this)">👁️</span>
+                <div class="tooltip" id="confirmationTooltip">Confirme sua senha.</div>
+            </div>
+
             <label for="data-nascimento">Data de Nascimento:</label>
             <input type="date" id="data-nascimento" name="data-nascimento" required>
 
@@ -41,6 +55,38 @@
             </div>
         </form>
     </div>
+    <script>
+        function togglePassword(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.textContent = "🙈"; // Ícone para "ocultar senha"
+            } else {
+                input.type = "password";
+                icon.textContent = "👁️"; // Ícone para "mostrar senha"
+            }
+        }
+        function checkPasswords() {
+            const password = document.getElementById('password').value;
+            const passwordConfirmation = document.getElementById('passwordConfirmation').value;
+
+            const passwordTooltip = document.getElementById('passwordTooltip');
+            const confirmationTooltip = document.getElementById('confirmationTooltip');
+
+            if (passwordConfirmation === "") {
+                confirmationTooltip.textContent = "Confirme sua senha.";
+                return;
+            }
+
+            if (password === passwordConfirmation) {
+                confirmationTooltip.textContent = "As senhas são idênticas.";
+                confirmationTooltip.style.backgroundColor = "green";
+            } else {
+                confirmationTooltip.textContent = "As senhas não coincidem.";
+                confirmationTooltip.style.backgroundColor = "red";
+            }
+        }
+    </script>
 </body>
 
 </html>
