@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ramirez.n1.controller.DTO.UserDTO;
 import com.ramirez.n1.entities.Endereco;
 import com.ramirez.n1.entities.User;
+import com.ramirez.n1.entities.DTO.UserDTO;
 import com.ramirez.n1.services.UserService;
 
 import jakarta.persistence.EntityNotFoundException;

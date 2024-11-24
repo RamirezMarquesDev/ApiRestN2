@@ -1,4 +1,4 @@
-package com.ramirez.n1.controller.DTO;
+package com.ramirez.n1.entities.DTO;
 
 import java.time.LocalDate;
 
