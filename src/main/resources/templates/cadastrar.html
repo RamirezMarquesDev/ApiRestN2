@@ -12,17 +12,14 @@
     <div class="container">
         <h1>Cadastrar Novo Usuário</h1>
 
-        <!-- Exibição de mensagem de sucesso -->
-        <div th:if="${message}" style="color: green;">
-            <p th:text="${message}"></p>
+        <div th:if="${messagemErro}" class="mensagem erro">
+            <span th:text="${messagemErro}"></span>
         </div>
-
-        <!-- Exibição de mensagem de erro -->
-        <div th:if="${error}" style="color: red;">
-            <p th:text="${error}"></p>
+        
+        <div th:if="${message}" class="mensagem sucesso">
+            <span th:text="${message}"></span>
         </div>
-
-
+        
         <form id="cadastro-form" action="/salvar" method="post">
             <label for="name">Nome:</label>
             <input type="text" id="name" name="name" required>
@@ -112,6 +109,15 @@
                 window.location.href = '/login'; // Redirecionar para a página de login
             }, 2000); // Aguardar 2 segundos antes de redirecionar
         }
+        // Aguarda 5 segundos (5000ms) e remove a mensagem
+    setTimeout(() => {
+        const mensagens = document.querySelectorAll('.mensagem');
+        mensagens.forEach(mensagem => {
+            mensagem.style.transition = "opacity 0.5s ease"; // Animação suave
+            mensagem.style.opacity = "0"; // Torna a mensagem transparente
+            setTimeout(() => mensagem.remove(), 500); // Remove do DOM após a animação
+        });
+    }, 2000);
 
         document.getElementById('cadastro-form').onsubmit = function(event) {
     event.preventDefault(); // Previne o envio do formulário para validar e manipular os dados

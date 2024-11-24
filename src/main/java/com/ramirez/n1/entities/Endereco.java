@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Endereco implements Serializable {
@@ -17,13 +19,28 @@ public class Endereco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "Logradouro é obrigatório")
     private String logradouro;
+
+    @NotNull(message = "Número é obrigatório")
     private Integer number;
+
+    // Quadra e lote é opcional
     private String quadra;
     private String lote;
+
+    @NotNull(message = "Bairro é obrigatório")
     private String bairro;
+
+    @NotNull(message = "CEP é obrigatório")
+    @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP inválido")
     private String cep;
+
+    @NotNull(message = "Cidade é obrigatória")
     private String cidade;
+
+    @NotNull(message = "Estado é obrigatório")
     private String estado;
 
     @OneToOne(mappedBy = "endereco")

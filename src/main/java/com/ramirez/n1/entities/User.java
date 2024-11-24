@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +14,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_user")
@@ -22,10 +27,22 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "Nome é obrigatório")
+    @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
     private String name;
+
+    @NotNull(message = "E-mail é obrigatório")
+    @Email(message = "E-mail inválido")
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @NotNull(message = "Senha é obrigatória")
+    @Size(min = 5, message = "Senha deve ter pelo menos 5 caracteres")
     private String password;
 
+    @NotNull(message = "Data de nascimento é obrigatória")
+    @Past(message = "Data de nascimento deve ser no passado!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
