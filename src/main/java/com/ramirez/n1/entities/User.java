@@ -1,8 +1,11 @@
 package com.ramirez.n1.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,16 +25,18 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String password;
-    private Date birthDate;
 
-    @OneToOne(cascade = jakarta.persistence.CascadeType.ALL) // Garante que operações em User afetam Endereco
-    @JoinColumn(name = "endereco_id", referencedColumnName = "id") // Nome da Chave estrangeira
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
 
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, Date birthDate, Endereco endereco) {
+    public User(Long id, String name, String email, String password, LocalDate birthDate, Endereco endereco) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -72,11 +77,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

@@ -2,6 +2,8 @@ package com.ramirez.n1.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +18,7 @@ public class Endereco implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String logradouro;
-    private String number;
+    private Integer number;
     private String quadra;
     private String lote;
     private String bairro;
@@ -25,12 +27,13 @@ public class Endereco implements Serializable {
     private String estado;
 
     @OneToOne(mappedBy = "endereco")
+    @JsonIgnore
     private User user;
 
     public Endereco() {
     }
 
-    public Endereco(Long id, String logradouro, String number, String quadra, String lote, String bairro, String cep,
+    public Endereco(Long id, String logradouro, Integer number, String quadra, String lote, String bairro, String cep,
             String cidade, String estado, User user) {
         this.id = id;
         this.logradouro = logradouro;
@@ -52,51 +55,51 @@ public class Endereco implements Serializable {
         this.id = id;
     }
 
-    public String getlogradouro() {
+    public String getLogradouro() {
         return logradouro;
     }
 
-    public void setlogradouro(String logradouro) {
+    public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
 
-    public String getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
-    public String getquadra() {
+    public String getQuadra() {
         return quadra;
     }
 
-    public void setquadra(String quadra) {
+    public void setQuadra(String quadra) {
         this.quadra = quadra;
     }
 
-    public String getlote() {
+    public String getLote() {
         return lote;
     }
 
-    public void setlote(String lote) {
+    public void setLote(String lote) {
         this.lote = lote;
     }
 
-    public String getbairro() {
+    public String getBairro() {
         return bairro;
     }
 
-    public void setbairro(String bairro) {
+    public void setBairro(String bairro) {
         this.bairro = bairro;
     }
 
-    public String getcep() {
+    public String getCep() {
         return cep;
     }
 
-    public void setcep(String cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
 
@@ -114,6 +117,14 @@ public class Endereco implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

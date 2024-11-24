@@ -11,9 +11,21 @@
 <body>
     <div class="container">
         <h1>Cadastrar Novo Usuário</h1>
+
+        <!-- Exibição de mensagem de sucesso -->
+        <div th:if="${message}" style="color: green;">
+            <p th:text="${message}"></p>
+        </div>
+
+        <!-- Exibição de mensagem de erro -->
+        <div th:if="${error}" style="color: red;">
+            <p th:text="${error}"></p>
+        </div>
+
+
         <form id="cadastro-form" action="/salvar" method="post">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
 
             <label for="email">E-mail:</label>
             <input type="email" id="email" name="email" required>
@@ -32,12 +44,12 @@
                 <div class="tooltip" id="confirmationTooltip">Confirme sua senha.</div>
             </div>
 
-            <label for="data-nascimento">Data de Nascimento:</label>
-            <input type="date" id="data-nascimento" name="data-nascimento" required>
+            <label for="birthDate">Data de Nascimento:</label>
+            <input type="date" id="birthDate" name="birthDate" required>
 
             <label for="endereco">Endereço:</label>
             <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro" required>
-            <input type="text" id="numero" name="numero" placeholder="Número" required>
+            <input type="number" id="number" name="number" placeholder="Número" required>
             <input type="text" id="quadra" name="quadra" placeholder="Quadra">
             <input type="text" id="lote" name="lote" placeholder="Lote">
             <input type="text" id="bairro" name="bairro" placeholder="Bairro" required>
@@ -46,14 +58,17 @@
             <input type="text" id="estado" name="estado" placeholder="Estado" required>
 
             <div class="button-container">
-                <form action="/salvar" method="post">
-                    <button type="submit">Salvar</button>
-                </form>
-                <form action="/login" method="get">
-                    <button type="submit2">Voltar ao Login</button>
-                </form>
+                <button type="submit" id="salvar-btn" disabled>Salvar</button>
             </div>
         </form>
+        <form action="/login" method="get">
+            <div class="button-container">
+                <button type="submit">Voltar ao Login</button>
+            </div>
+        </form>
+        <div id="success-message" style="display: none; color: green;">
+            <h2>Usuário cadastrado com sucesso!</h2>
+        </div>
     </div>
     <script>
         function togglePassword(inputId, icon) {
@@ -72,20 +87,40 @@
 
             const passwordTooltip = document.getElementById('passwordTooltip');
             const confirmationTooltip = document.getElementById('confirmationTooltip');
+            const salvarBtn = document.getElementById('salvar-btn');
 
             if (passwordConfirmation === "") {
                 confirmationTooltip.textContent = "Confirme sua senha.";
+                salvarBtn.disabled = true;
                 return;
             }
 
             if (password === passwordConfirmation) {
                 confirmationTooltip.textContent = "As senhas são idênticas.";
                 confirmationTooltip.style.backgroundColor = "green";
+                salvarBtn.disabled = false;
             } else {
                 confirmationTooltip.textContent = "As senhas não coincidem.";
                 confirmationTooltip.style.backgroundColor = "red";
+                salvarBtn.disabled = true;
             }
         }
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('success-message');
+            successMessage.style.display = 'block';
+            setTimeout(function() {
+                window.location.href = '/login'; // Redirecionar para a página de login
+            }, 2000); // Aguardar 2 segundos antes de redirecionar
+        }
+
+        document.getElementById('cadastro-form').onsubmit = function(event) {
+    event.preventDefault(); // Previne o envio do formulário para validar e manipular os dados
+    // Agora, pode mostrar a mensagem de sucesso ou enviar o formulário
+    showSuccessMessage();
+    // Submete o formulário após a validação
+    event.target.submit();
+};
+
     </script>
 </body>
 

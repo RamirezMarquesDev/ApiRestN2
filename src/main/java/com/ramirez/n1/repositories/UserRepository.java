@@ -1,4 +1,4 @@
-package com.ramirez.n1.repository;
+package com.ramirez.n1.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
