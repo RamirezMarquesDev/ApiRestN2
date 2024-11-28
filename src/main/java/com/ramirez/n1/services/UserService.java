@@ -21,7 +21,19 @@ public class UserService {
     private UserRepository userRepository;
 
     public User validUser(String email, String password) {
-        return userRepository.findByEmailAndPassword(email, password);
+        User usuario = userRepository.findByEmailAndPassword(email, password);
+
+        if (usuario != null) {
+            // Captura o nome completo e extrai o primeiro nome
+            String nomeCompleto = usuario.getName();
+            String[] nomes = nomeCompleto.split(" ");
+            String primeiroNome = nomes[0];
+
+            // Armazena o primeiro nome no usuário para ser acessado no controlador
+            usuario.setPrimeiroNome(primeiroNome); // Você precisa ter um método setter para isso no User
+        }
+
+        return usuario;
     }
 
     public List<User> findAll() {

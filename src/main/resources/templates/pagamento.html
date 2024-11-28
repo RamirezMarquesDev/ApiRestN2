@@ -1,77 +1,63 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/pagamento.css">
-    <title>Página de Pagamento</title>
+    <title>Pagamento</title>
+    <link rel="stylesheet" href="pagamento.css">
 </head>
-
 <body>
-    <div class="pagamento-container">
-        <h1>Página de Pagamento</h1>
-        <form id="payment-form">
-            <!-- Bandeira do Cartão -->
-            <div class="campo-container">
-                <label for="bandeira-cartao">Bandeira do Cartão</label>
-                <select id="bandeira-cartao" name="bandeira-cartao">
-                    <option value="visa">Visa</option>
-                    <option value="mastercard">Mastercard</option>
-                    <option value="amex">American Express</option>
-                </select>
-            </div>
-
-            <!-- Número do Cartão -->
-            <div class="campo-container">
-                <label for="numero-cartao">Número do Cartão</label>
-                <input type="text" id="numero-cartao" name="numero-cartao" maxlength="16"
-                    placeholder="Digite o número do cartão">
-            </div>
-
-            <!-- Data de Expiração -->
-            <div class="campo-container">
-                <label for="data-expiracao">Data de Expiração</label>
-                <input type="month" id="data-expiracao" name="data-expiracao">
-            </div>
-
-            <!-- Código de Segurança -->
-            <div class="campo-container">
-                <label for="codigo-seguranca">Código de Segurança</label>
-                <input type="text" id="codigo-seguranca" name="codigo-seguranca" maxlength="3" placeholder="CVV">
-            </div>
-            <!-- Botão Finalizar -->
-            <div class="botao-container">
-                <button type="button" class="btn-finalizar" id="finalizar-pagamento">Finalizar Pagamento</button>
-            </div>
-        </form>
+    <h1>Pagamento</h1>
+    <div class="carrinho">
+        <h2>Produtos no Carrinho</h2>
+        <ul id="produtosList"></ul>
+        <div class="total">
+            <h3>Total: R$ <span id="total"></span></h3>
+        </div>
     </div>
+    <button onclick="finalizarPagamento()">Finalizar Pagamento</button>
+
     <script>
-        // Capturar dados da URL (da tela de produtos)
-        const params = new URLSearchParams(window.location.search);
-        const nomeProduto = params.get('nome');
-        const modeloProduto = params.get('modelo');
-        const marcaProduto = params.get('marca');
-        const corProduto = params.get('cor');
-        const precoProduto = parseFloat(params.get('preco').replace(',', '.')); // Converter para float
+        // Função para finalizar o pagamento
+        function finalizarPagamento() {
+            alert("Pagamento finalizado com sucesso!");
+            // Aqui você pode adicionar a lógica para processar o pagamento
+        }
 
-        // Adicionar evento de clique no botão de finalizar pagamento
-        document.getElementById('finalizar-pagamento').addEventListener('click', function () {
-            // Capturar os dados do formulário
-            const bandeiraCartao = document.getElementById('bandeira-cartao').value;
-            const numeroCartao = document.getElementById('numero-cartao').value;
-            const dataExpiracao = document.getElementById('data-expiracao').value;
-            const codigoSeguranca = document.getElementById('codigo-seguranca').value;
+        // Função para obter os parâmetros da URL
+        function getUrlParams() {
+            const params = {};
+            window.location.search.substring(1).split('&').forEach(param => {
+                const [key, value] = param.split('=');
+                params[key] = decodeURIComponent(value);
+            });
+            return params;
+        }
 
+        // Obtém os parâmetros da URL
+        const params = getUrlParams();
+        const carrinho = JSON.parse(params.carrinho);
+        const total = parseFloat(params.total);
 
-            // Calcular total (considerando a quantidade como 1)
-            const quantidade = 1; // Quantidade fixa
-            const total = precoProduto * quantidade; // Total
-
-            // Simular a finalização do pagamento e redirecionar para a tela de confirmação
-            window.location.href = `/confirmacao?nome=${encodeURIComponent(nomeProduto)}&modelo=${encodeURIComponent(modeloProduto)}&marca=${encodeURIComponent(marcaProduto)}&cor=${encodeURIComponent(corProduto)}&preco=${encodeURIComponent(precoProduto.toFixed(2))}&total=${encodeURIComponent(total)}&bandeira=${encodeURIComponent(bandeiraCartao)}&numero=${encodeURIComponent(numeroCartao)}&data=${encodeURIComponent(dataExpiracao)}&codigo=${encodeURIComponent(codigoSeguranca)}`;
+        // Exibe os produtos no carrinho
+        const produtosList = document.getElementById('produtosList');
+        carrinho.forEach(produto => {
+            const produtoItem = document.createElement('li');
+            produtoItem.innerHTML = `
+                <img src="/images/${produto.imagem}" alt="Imagem do Produto"/>
+                <div class="descricao">
+                    <h3>${produto.nome}</h3>
+                    <p><strong>Modelo:</strong> ${produto.modelo}</p>
+                    <p><strong>Marca:</strong> ${produto.marca}</p>
+                    <p><strong>Cor:</strong> ${produto.cor}</p>
+                    <p class="preco">Preço: R$ ${produto.preco}</p>
+                </div>
+            `;
+            produtosList.appendChild(produtoItem);
         });
+
+        // Exibe o total
+        document.getElementById('total').innerText = total.toFixed(2);
     </script>
 </body>
-
 </html>
